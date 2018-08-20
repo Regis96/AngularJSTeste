@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <script src="./node_modules/angular/angular.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <script src="./index.js"></script>
+        <link rel="stylesheet" type="text/css" href="./index.css">
+        <title>Lista Telefonica</title>
+    </head>
+
+    <body ng-app="myApp">
+        <div ng-controller="myController">
+             <div class="jumbotron">
+                 <h4 ng-bind="app"></h4>
+                 <table class="table table-striped">
+                    <tr>
+                        <th></th>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Operadora</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="contato in contatos" ng-class="{negrito : contato.selecionado}">
+                        <th><input type="checkbox" ng-model="contato.selecionado"></th>
+                        <td>{{contato.nome}}</td>
+                        <td>{{contato.telefone}}</td>
+                        <td>{{contato.operadora.nome}}</td>
+                        <th><div style="width: 20px;height: 20px;" ng-style="{'background-color': contato.cor}"></div></th>
+                        
+                    </tr>
+                 </table>
+                 <hr>
+                 <form name="contatoForm">
+                    <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome" ng-required="true">
+                    <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone" ng-required="true">
+                    <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" ng-required="true">
+                        <option value="">Selecione uma operadora</option>
+                    </select>
+                    <input class="form-control" type="text" ng-model="contato.cor" placeholder="Cor" ng-required="true">
+                    <button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="contatoForm.$invalid">Adicionar Contato</button>
+                    <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-hide="!isContatoSelecionado(contatos)">Apagar Contatos</button>
+                    </form>
+                </div>
+        </div>
+    </body>
+</html>
